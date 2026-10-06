@@ -6,7 +6,6 @@ class MotionFeature:
     top_flows: np.ndarray
 
     def __init__(self, flow_field: np.ndarray, top_ratio: float=0.05):
-        # self.top_flows = _extract_top_flows(flow_field, top_ratio)
         self.top_flows = flow_field
         
 
@@ -24,19 +23,14 @@ def _sigmoid(x: float) -> float:
     return 1 / (1 + np.exp(-x))
 
 def get_motion_score(feat1: MotionFeature, feat2: MotionFeature) -> float:    
-    # (u1, v1) = feat1.top_flows
-    # (u2, v2) = feat2.top_flows
     f1 = feat1.top_flows
     f2 = feat2.top_flows
 
-    # m1 = np.sqrt(u1**2+v1**2)
-    # m2 = np.sqrt(u2**2+v2**2)
     m1 = np.mean(np.linalg.norm(f1, axis=2))  
-    m2 = np.mean(np.linalg.norm(f1, axis=2))
+    m2 = np.mean(np.linalg.norm(f2, axis=2))
 
     mag_sim = 40.0 / (np.abs(m1 - m2) + 40.0)
 
-    # dir_sim = np.abs((u1 * u2 + v1 * v2) / (m1 * m2))
     dir_sim = np.dot(f1.flatten(), f2.flatten()) / (np.linalg.norm(f1) * np.linalg.norm(f2))
     dir_sim = (dir_sim + 1) / 2
 

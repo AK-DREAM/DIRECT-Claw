@@ -69,7 +69,6 @@ def main_agent() -> None:
     music_path = Path(task_config["music_path"])
     user_prompt = task_config["user_prompt"]
     video_fps = task_config["video_fps"]
-    # video_fps = 24
 
     # load video footages & features
     logger.info(f"Loading video footages and features from {csv_path}...")
